@@ -1,6 +1,6 @@
 package rig::engine::base;
 BEGIN {
-  $rig::engine::base::VERSION = '0.01_01';
+  $rig::engine::base::VERSION = '0.01_02';
 }
 use strict;
 use warnings;
@@ -357,7 +357,7 @@ rig::engine::base - Default engine for rig
 
 =head1 VERSION
 
-version 0.01_01
+version 0.01_02
 
 =head1 DESCRIPTION
 

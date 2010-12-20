@@ -4,6 +4,7 @@ MANIFEST
 META.yml
 Makefile.PL
 README
+README.pod
 bin/rigup
 dist.ini
 lib/rig.pm
@@ -23,10 +24,6 @@ t/release-pod-syntax.t
 t/strictness.t
 xt/Req.pm
 xt/benchmark.t
-xt/lib/doo.pm
-xt/lib/flavor.pm
-xt/lib/kit.pm
-xt/lib/sugar.pm
 xt/moose.t
 xt/perlrc
 xt/perlrig

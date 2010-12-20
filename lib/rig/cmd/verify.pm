@@ -1,6 +1,6 @@
 package rig::cmd::verify;
 BEGIN {
-  $rig::cmd::verify::VERSION = '0.01_01';
+  $rig::cmd::verify::VERSION = '0.01_02';
 }
 use strict qw/vars/;
 
@@ -8,7 +8,7 @@ sub run {
     require rig;
     my $engine_import = rig->_setup_engine;
     rig->_setup_parser;
-    &$engine_import();
+    &$engine_import('rig::engine::base');
 }
 
 1;
@@ -19,7 +19,7 @@ rig::cmd::verify - Check that your rig is installed in the system
 
 =head1 VERSION
 
-version 0.01_01
+version 0.01_02
 
 =head1 SYNOPSYS
 

@@ -26,10 +26,11 @@ my %WriteMakefileArgs = (
     'File::HomeDir' => '0',
     'File::Spec' => '0',
     'Hook::LexWrap' => '0',
+    'Sub::Delete' => '0',
     'YAML::XS' => '0',
     'version' => '0'
   },
-  'VERSION' => '0.01_01',
+  'VERSION' => '0.01_02',
   'test' => {
     'TESTS' => 't/*.t'
   }
