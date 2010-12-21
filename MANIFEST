@@ -22,7 +22,6 @@ t/perlrig.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
 t/strictness.t
-xt/Req.pm
 xt/benchmark.t
 xt/moose.t
 xt/perlrc

@@ -1,6 +1,6 @@
 package rig::cmd::verify;
 BEGIN {
-  $rig::cmd::verify::VERSION = '0.01_02';
+  $rig::cmd::verify::VERSION = '0.01_03';
 }
 use strict qw/vars/;
 
@@ -19,7 +19,7 @@ rig::cmd::verify - Check that your rig is installed in the system
 
 =head1 VERSION
 
-version 0.01_02
+version 0.01_03
 
 =head1 SYNOPSYS
 

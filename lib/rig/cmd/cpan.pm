@@ -1,6 +1,6 @@
 package rig::cmd::cpan;
 BEGIN {
-  $rig::cmd::cpan::VERSION = '0.01_02';
+  $rig::cmd::cpan::VERSION = '0.01_03';
 }
 use strict;
 use CPAN;
@@ -37,7 +37,7 @@ rig::cmd::cpan - Command to install a rig with the cpan command line
 
 =head1 VERSION
 
-version 0.01_02
+version 0.01_03
 
 =head1 SYNOPSYS
 
