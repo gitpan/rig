@@ -1,6 +1,6 @@
 package rig;
 BEGIN {
-  $rig::VERSION = '0.01_03';
+  $rig::VERSION = '0.01_04';
 }
 use strict;
 use Carp;
@@ -31,7 +31,7 @@ sub import {
 sub _process_pragmas {
     my $class = shift;
     my @args;
-    while ( my $_ = shift ) {
+    while ( local $_ = shift ) {
         if (/^-(.+)$/) {
 
             # process pragma
@@ -64,11 +64,11 @@ sub _setup_parser {
 
 =head1 NAME
 
-rig - Bundle up your favorite modules and imports into one call
+rig - import groups of favorite/related modules with a single expression
 
 =head1 VERSION
 
-version 0.01_03
+version 0.01_04
 
 =head1 SYNOPSIS
 
@@ -114,36 +114,35 @@ A file called C<.perlrig> in your home or current working directory.
 
 =item * 
 
-Packages undeneath the rig::task::<rig_task_name>
+Packages undeneath the C<rig::task::<rig_task_name>>, for better portability.
 
 =back
 
 =head1 IMPLEMENTATION
 
 This module uses lots of internal C<goto>s to trick modules to think they're being
-loaded by the original caller, and not by C<rig> itself. And hooks to keep 
-modules orderly loading. 
+loaded by the original caller, and not by C<rig> itself. It also hooks into C<import> to keep 
+modules loading after a C<goto>.  
 
 Modules that don't have an C<import()> method, are instead C<eval>led into the caller's package. 
 
-This is a hacky, and I'm certainly open to suggestions on how to make
-loading modules more generic and effective.
+This is somewhat hacky, there are probably better ways of achieving the same results.
+We're open to suggestions on how to make loading modules more generic and effective.
 
 =head1 USAGE
 
 =head2 Code
 
     use rig -file   => '/tmp/.rig';           # explicitly use a file
-    use rig -path   => qw(. /home/me /opt);
-    use rig -engine => 'base';
-    use rig -jit    => 1;
+    use rig -engine => 'base'; 
+    use rig -path   => qw(. /home/me /opt);   # not implemented yet
+    use rig -jit    => 1;                     # not implemented yet
 
     use rig moose, strictness, modernity;
 
     use rig 'kensho';
     use rig 'kensho::strictive';    # looks for rig::task::kensho::strictive
     use rig 'signes';
-    use rig 'debugging';
 
 =head2 C<.perlrig> YAML structure
 
@@ -152,8 +151,8 @@ loading modules more generic and effective.
          - <module> [min_version]
          - +<module> 
          - <module>:
-            - <import1>
-            - <import2>
+            - <export1>
+            - <export2>
             - ...
       also: <task2> [, <task3> ... ]
 
@@ -167,11 +166,11 @@ Lists modules to be C<use>d.
 
 =item *
 
-Checks module versions.
+Checks module versions (optional).
 
 =item *
 
-Lists imports.
+Lists exports (optional).
 
 =back
 
@@ -257,7 +256,7 @@ you can still write your own parser if you like:
    use rig -parser => 'xml';
    use rig 'fav-in-xml';
 
-=head2 Global settings
+=head2 Global Configuration
 
 Use the C<$ENV{PERLRIG_FILE}> variable to tell C<rig> where to find your file.
 
@@ -281,7 +280,8 @@ to ship them as part of the C<rig::task::> namespace.
       };
    }
 
-This is the recommended way to ship a rig with your distribution. 
+This is the recommended way to ship a rig with your distribution. It
+makes your distribution portable, no C<.perlrig> file is required.
 
 =head1 CAVEATS
 
@@ -293,7 +293,7 @@ modifications without major deprecations.
 
 There's an upfront load time (on the first C<use rig> it finds) while C<rig>
 looks for, parses and processes your C<.perlrig> file. Subsequent calls
-won't look for any more files, as it's structure will remain loaded in memory.
+won't look for any more files, as its structure will remain loaded in memory.
 
 =head2 Ordered Load
 
@@ -301,6 +301,16 @@ As of right now, module loading order tends to get messed up easily. This
 will probably be fixed, as the author's intention is to load modules 
 following the order set by the user in the C<.perlrig> and C<use rig>
 statements.
+
+=head1 ON NAMING THIS PACKAGE
+
+The authors feel that C<rig> is a short name that is good for one-liners.
+It's lowercase because we feel it's a pragma-like module that augments
+the functionality of C<use>. 
+But C<rig> is a unique enough name as to avoid
+clashing with future Perl pragmas. 
+
+We're sorry if it hurts anyone's lowercase sensibility.
 
 =head1 TODO
 
@@ -339,5 +349,11 @@ More tests.
 Fix load sequence.
 
 =back 
+
+=head1 SEE ALSO
+
+L<Toolkit> - uses filters and C<AUTOLOAD> to accomplish its import magic.
+
+L<ToolSet> - employs C<use base> and C<package ...; eval ...>.
 
 =cut

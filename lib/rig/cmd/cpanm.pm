@@ -1,6 +1,6 @@
 package rig::cmd::cpanm;
 BEGIN {
-  $rig::cmd::cpanm::VERSION = '0.01_03';
+  $rig::cmd::cpanm::VERSION = '0.01_04';
 }
 use strict;
 use base 'rig::cmd::cpan';
@@ -19,7 +19,7 @@ rig::cmd::cpanm - Command to install a rig with the cpanm command line
 
 =head1 VERSION
 
-version 0.01_03
+version 0.01_04
 
 =head1 SYNOPSYS
 

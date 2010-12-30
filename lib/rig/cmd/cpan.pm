@@ -1,6 +1,6 @@
 package rig::cmd::cpan;
 BEGIN {
-  $rig::cmd::cpan::VERSION = '0.01_03';
+  $rig::cmd::cpan::VERSION = '0.01_04';
 }
 use strict;
 use CPAN;
@@ -13,12 +13,30 @@ sub run {
     my $data = $parser->parse;
     #return unless ref $data eq 'HASH';
     for my $task ( keys %$data ) {
-        print "Loaded $task...\n";
+        print "Loaded task $task...\n";
 		next unless exists $data->{$task}->{use};
         for my $module ( @{ $data->{$task}->{use} } ) {
             ref $module eq 'HASH' and $module = (keys %$module)[0];
-            print "Installing $module...\n";
-            $self->_install_module($module);
+            print "Checking $module...";
+            my ($name, $version) = split /\s+/, $module;
+            eval "require $name";
+            if( $@ ) {
+                die $@ unless $@ =~ /can.t locate /i;
+            } elsif( $version ) {
+                no strict 'refs';
+                my $module_version = ${$name.'::VERSION'};
+                next unless defined $module_version;
+                require version;
+                print( "ok\n"),next
+                    if version->parse($module_version) >= version->parse($version);
+                print "version mismatch ($module_version < $version ): ";
+            } else {
+                print( "ok\n");
+                next;
+            }
+            print "installing $name.\n";
+            $self->_install_module($name);
+            print "\n";
         }
     }
 }
@@ -37,7 +55,7 @@ rig::cmd::cpan - Command to install a rig with the cpan command line
 
 =head1 VERSION
 
-version 0.01_03
+version 0.01_04
 
 =head1 SYNOPSYS
 

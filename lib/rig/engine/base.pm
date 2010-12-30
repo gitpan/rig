@@ -1,6 +1,6 @@
 package rig::engine::base;
 BEGIN {
-  $rig::engine::base::VERSION = '0.01_03';
+  $rig::engine::base::VERSION = '0.01_04';
 }
 use strict;
 use warnings;
@@ -264,7 +264,6 @@ sub _check_versions {
     my ($self, $name, $version) = @_;
     no strict q/refs/;
     my $current = ${$name.'::VERSION'}; 
-    #print "----------checking $current x $version.-----------\n";
     return unless defined $current && defined $version;
     croak "rig: version error: required module $name $version, but found version $current"
         if version->parse($current) < version->parse($version); 
@@ -357,7 +356,7 @@ rig::engine::base - Default engine for rig
 
 =head1 VERSION
 
-version 0.01_03
+version 0.01_04
 
 =head1 DESCRIPTION
 

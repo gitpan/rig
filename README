@@ -1,8 +1,8 @@
 NAME
-    rig - Bundle up your favorite modules and imports into one call
+    rig - import groups of favorite/related modules with a single expression
 
 VERSION
-    version 0.01_03
+    version 0.01_04
 
 SYNOPSIS
     In your "/home/user/.perlrig" yaml file:
@@ -40,32 +40,33 @@ DESCRIPTION
 
     *   A file called ".perlrig" in your home or current working directory.
 
-    *   Packages undeneath the rig::task::<rig_task_name>
+    *   Packages undeneath the "rig::task::<rig_task_name">, for better
+        portability.
 
 IMPLEMENTATION
     This module uses lots of internal "goto"s to trick modules to think
-    they're being loaded by the original caller, and not by "rig" itself.
-    And hooks to keep modules orderly loading.
+    they're being loaded by the original caller, and not by "rig" itself. It
+    also hooks into "import" to keep modules loading after a "goto".
 
     Modules that don't have an "import()" method, are instead "eval"led into
     the caller's package.
 
-    This is a hacky, and I'm certainly open to suggestions on how to make
-    loading modules more generic and effective.
+    This is somewhat hacky, there are probably better ways of achieving the
+    same results. We're open to suggestions on how to make loading modules
+    more generic and effective.
 
 USAGE
   Code
         use rig -file   => '/tmp/.rig';           # explicitly use a file
-        use rig -path   => qw(. /home/me /opt);
-        use rig -engine => 'base';
-        use rig -jit    => 1;
+        use rig -engine => 'base'; 
+        use rig -path   => qw(. /home/me /opt);   # not implemented yet
+        use rig -jit    => 1;                     # not implemented yet
 
         use rig moose, strictness, modernity;
 
         use rig 'kensho';
         use rig 'kensho::strictive';    # looks for rig::task::kensho::strictive
         use rig 'signes';
-        use rig 'debugging';
 
   ".perlrig" YAML structure
        <task>:
@@ -73,17 +74,17 @@ USAGE
              - <module> [min_version]
              - +<module> 
              - <module>:
-                - <import1>
-                - <import2>
+                - <export1>
+                - <export2>
                 - ...
           also: <task2> [, <task3> ... ]
 
    use section
     *   Lists modules to be "use"d.
 
-    *   Checks module versions.
+    *   Checks module versions (optional).
 
-    *   Lists imports.
+    *   Lists exports (optional).
 
     By default, modules are imported by calling "import". Alternatively, a
     plus sign "+" can be used in front of the module to force it to be
@@ -162,7 +163,7 @@ The .perlrig file
        use rig -parser => 'xml';
        use rig 'fav-in-xml';
 
-  Global settings
+  Global Configuration
     Use the $ENV{PERLRIG_FILE} variable to tell "rig" where to find your
     file.
 
@@ -185,7 +186,8 @@ rig::task:: modules
           };
        }
 
-    This is the recommended way to ship a rig with your distribution.
+    This is the recommended way to ship a rig with your distribution. It
+    makes your distribution portable, no ".perlrig" file is required.
 
 CAVEATS
     Although short, the api and yaml specs are still unstable and are
@@ -195,14 +197,22 @@ CAVEATS
   Startup Cost
     There's an upfront load time (on the first "use rig" it finds) while
     "rig" looks for, parses and processes your ".perlrig" file. Subsequent
-    calls won't look for any more files, as it's structure will remain
-    loaded in memory.
+    calls won't look for any more files, as its structure will remain loaded
+    in memory.
 
   Ordered Load
     As of right now, module loading order tends to get messed up easily.
     This will probably be fixed, as the author's intention is to load
     modules following the order set by the user in the ".perlrig" and "use
     rig" statements.
+
+ON NAMING THIS PACKAGE
+    The authors feel that "rig" is a short name that is good for one-liners.
+    It's lowercase because we feel it's a pragma-like module that augments
+    the functionality of "use". But "rig" is a unique enough name as to
+    avoid clashing with future Perl pragmas.
+
+    We're sorry if it hurts anyone's lowercase sensibility.
 
 TODO
     *   Create a class to hold the perlrig definition.
@@ -221,4 +231,9 @@ TODO
     *   More tests.
 
     *   Fix load sequence.
+
+SEE ALSO
+    Toolkit - uses filters and "AUTOLOAD" to accomplish its import magic.
+
+    ToolSet - employs "use base" and "package ...; eval ...".
 
