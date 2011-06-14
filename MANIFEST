@@ -8,6 +8,7 @@ README.pod
 bin/rigup
 dist.ini
 lib/rig.pm
+lib/rig/CmdBase.pm
 lib/rig/cmd/cpan.pm
 lib/rig/cmd/cpanm.pm
 lib/rig/cmd/verify.pm
@@ -36,3 +37,4 @@ xt/t5.pl
 xt/t6.pl
 xt/t7.pl
 xt/t8.pl
+xt/t9.pl

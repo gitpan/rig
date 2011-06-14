@@ -2,12 +2,12 @@ NAME
     rig - import groups of favorite/related modules with a single expression
 
 VERSION
-    version 0.01_04
+    version 0.02
 
 SYNOPSIS
     In your "/home/user/.perlrig" yaml file:
 
-       common:
+       favorite:
           use:
              - strict
              - warnings
@@ -18,7 +18,7 @@ SYNOPSIS
 
     Back in your code:
 
-       use rig common;
+       use rig favorite;
 
        # same as:
        #   use strict;
@@ -26,7 +26,7 @@ SYNOPSIS
        #   use List::Util qw/first max/;
        #   use Data::Dumper;
 
-       # now, have a ball:
+       # now have a ball:
 
        print first { $_ > 10 } @ary; # from List::Utils;
        print Dumper $foo;  # from Data::Dumper
@@ -48,24 +48,24 @@ IMPLEMENTATION
     they're being loaded by the original caller, and not by "rig" itself. It
     also hooks into "import" to keep modules loading after a "goto".
 
-    Modules that don't have an "import()" method, are instead "eval"led into
+    Modules that don't have an "import()" method are instead "eval"led into
     the caller's package.
 
     This is somewhat hacky, there are probably better ways of achieving the
     same results. We're open to suggestions on how to make loading modules
-    more generic and effective.
+    more generic and effective. Just fork me on Github!
 
 USAGE
   Code
         use rig -file   => '/tmp/.rig';           # explicitly use a file
-        use rig -engine => 'base'; 
+        use rig -engine => 'base';                # chooses the current engine
         use rig -path   => qw(. /home/me /opt);   # not implemented yet
-        use rig -jit    => 1;                     # not implemented yet
 
         use rig moose, strictness, modernity;
 
-        use rig 'kensho';
-        use rig 'kensho::strictive';    # looks for rig::task::kensho::strictive
+        use rig 'kensho';            # loads a rig called kensho
+        use rig ':kensho';           # skips files, goes straight to rig::task::kensho
+        use rig 'kensho::strictive'; # skips files, uses rig::task::kensho::strictive
         use rig 'signes';
 
   ".perlrig" YAML structure
@@ -86,22 +86,31 @@ USAGE
 
     *   Lists exports (optional).
 
-    By default, modules are imported by calling "import". Alternatively, a
-    plus sign "+" can be used in front of the module to force it to be
-    loaded using the "eval" method, as such:
+    By default, modules in your rig are imported by calling "import".
+
+    Alternatively, a plus sign "+" can be used in front of the module to
+    force it to be loaded using the "eval" method, as such:
 
         eval "package <your_package>; use <module>;"
 
     This may be useful to workaround issues with using import when none is
-    available, or things are just not working as expected.
+    available and "rig" fails to detect a missing import method, or things
+    are just not working as expected.
 
    also section
     Used to bundle tasks into each other.
 
    Examples
+       modernity:
+          use:
+             - strict 
+             - warnings
+             - feature:
+                - say
+                - switch
        moose:
           use:
-             - Moose 0.92
+             - Moose 1.0
              - Moose::Autobox
              - autodie
              - Method::Signatures
@@ -111,11 +120,9 @@ USAGE
              - strict
              - warnings
              - Data::Dumper
-             - feature:
-                - say
-                - switch
              - Data::Alias
              - autodie
+          also: modernity
        bam:
           use:
              - List::Util:

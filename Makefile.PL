@@ -4,7 +4,7 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
@@ -13,7 +13,7 @@ my %WriteMakefileArgs = (
   'AUTHOR' => 'Rodrigo de Oliveira <rodrigolive@gmail.com>',
   'BUILD_REQUIRES' => {},
   'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+    'ExtUtils::MakeMaker' => '6.30'
   },
   'DISTNAME' => 'rig',
   'EXE_FILES' => [
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     'YAML::XS' => '0',
     'version' => '0'
   },
-  'VERSION' => '0.01_04',
+  'VERSION' => '0.02',
   'test' => {
     'TESTS' => 't/*.t'
   }
