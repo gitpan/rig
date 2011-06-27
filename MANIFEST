@@ -14,6 +14,8 @@ lib/rig/cmd/cpanm.pm
 lib/rig/cmd/verify.pm
 lib/rig/engine/base.pm
 lib/rig/parser/yaml.pm
+lib/rig/task/modern.pm
+lib/rig/task/red.pm
 t/also.t
 t/basic.t
 t/imports.t

@@ -2,7 +2,7 @@ NAME
     rig - import groups of favorite/related modules with a single expression
 
 VERSION
-    version 0.02
+    version 0.03
 
 SYNOPSIS
     In your "/home/user/.perlrig" yaml file:
@@ -155,21 +155,6 @@ The .perlrig file
     Having a structured file written in plain yaml makes it easier for
     worldly parsers to parse the file and understand your configuration.
 
-  Writing your own parser
-    Although this distribution only comes with a yaml parser for the
-    .perlrig file. you can still write your own parser if you like:
-
-       package rig::parser::xml;
-       use base 'rig::parser::base';
-
-       sub parse { return .... } 
-
-       # meanwhile in Gotham City:
-
-       package main;
-       use rig -parser => 'xml';
-       use rig 'fav-in-xml';
-
   Global Configuration
     Use the $ENV{PERLRIG_FILE} variable to tell "rig" where to find your
     file.
@@ -195,6 +180,28 @@ rig::task:: modules
 
     This is the recommended way to ship a rig with your distribution. It
     makes your distribution portable, no ".perlrig" file is required.
+
+  Out-of-the-box rig tasks
+    This module comes with 2 internal rigs defined:
+
+    *   Modern rig::task::modern
+
+    *   Red rig::task::red
+
+  Writing your own parser
+    Although this distribution only comes with a yaml parser for the
+    .perlrig file. you can still write your own parser if you like:
+
+       package rig::parser::xml;
+       use base 'rig::parser::base';
+
+       sub parse { return .... } 
+
+       # meanwhile in Gotham City:
+
+       package main;
+       use rig -parser => 'xml';
+       use rig 'fav-in-xml';
 
 CAVEATS
     Although short, the api and yaml specs are still unstable and are

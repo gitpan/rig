@@ -1,6 +1,6 @@
 package rig::parser::yaml;
 BEGIN {
-  $rig::parser::yaml::VERSION = '0.02';
+  $rig::parser::yaml::VERSION = '0.03';
 }
 use strict;
 use Carp;
@@ -73,7 +73,7 @@ rig::parser::yaml - YAML parser for rig
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 DESCRIPTION
 
