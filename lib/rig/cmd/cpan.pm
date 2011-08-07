@@ -1,6 +1,6 @@
 package rig::cmd::cpan;
-BEGIN {
-  $rig::cmd::cpan::VERSION = '0.03';
+{
+  $rig::cmd::cpan::VERSION = '0.04';
 }
 use strict;
 use CPAN;
@@ -18,6 +18,7 @@ sub run {
 		next unless exists $data->{$task}->{use};
         for my $module ( @{ $data->{$task}->{use} } ) {
             ref $module eq 'HASH' and $module = (keys %$module)[0];
+            $module =~ s/^\++//g;
             print "Checking $module...";
             my ($name, $version) = split /\s+/, $module;
             eval "require $name";
@@ -56,7 +57,7 @@ rig::cmd::cpan - Command to install a rig with the cpan command line
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSYS
 

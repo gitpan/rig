@@ -1,6 +1,6 @@
 package rig::CmdBase;
-BEGIN {
-  $rig::CmdBase::VERSION = '0.03';
+{
+  $rig::CmdBase::VERSION = '0.04';
 }
 use strict;
 

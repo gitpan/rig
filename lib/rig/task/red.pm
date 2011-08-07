@@ -1,6 +1,6 @@
 package rig::task::red;
-BEGIN {
-  $rig::task::red::VERSION = '0.03';
+{
+  $rig::task::red::VERSION = '0.04';
 }
 
 sub rig {
@@ -25,7 +25,7 @@ rig::task::red - the 'red' rig
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 DESCRIPTION
 

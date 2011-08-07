@@ -1,6 +1,6 @@
 package rig;
-BEGIN {
-  $rig::VERSION = '0.03';
+{
+  $rig::VERSION = '0.04';
 }
 use strict;
 use Carp;
@@ -68,7 +68,7 @@ rig - import groups of favorite/related modules with a single expression
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 

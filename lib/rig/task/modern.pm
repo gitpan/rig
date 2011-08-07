@@ -1,6 +1,6 @@
 package rig::task::modern;
-BEGIN {
-  $rig::task::modern::VERSION = '0.03';
+{
+  $rig::task::modern::VERSION = '0.04';
 }
 
 sub rig {
@@ -18,7 +18,7 @@ rig::task::modern - standard modern Perl
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 DESCRIPTION
 
